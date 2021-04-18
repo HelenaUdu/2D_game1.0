@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
     public float moveSpeed;
     public Rigidbody2D rb;
+    public float jumpForce;
 
-    // Start is called before the first frame update
     void Start()
     {
         
@@ -21,9 +20,17 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-    
+        if(isGrounded() && Input.GetKeyDown(KeyCode.UpArrow) || isGrounded() && Input.GetKeyDown("w"))
+        {
+            rb.AddForce(Vector2.up*jumpForce, ForceMode2D.Force);
+        }
+    }
+
+    bool isGrounded()
+    {
+        RaycastHit2D hit=Physics2D.Raycast(transform.position, Vector2.down, 1.0f);
+        return hit.collider != null;
     }
 }
